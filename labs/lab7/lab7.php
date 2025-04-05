@@ -1,11 +1,12 @@
 <?php
-require_once('../template.php');
-require_once('../database.php');
+require_once('../../template.php');
+require_once('../../database.php');
 
 $page = new template();
 $page->headerSubtitle = "Lab 7";
 $page->title = "Lab 7";
 
+$db = new Database();
 $sql = "SELECT * FROM vwuser";
 $results = $db->getAll($sql);
 
@@ -52,4 +53,4 @@ $page->Display();
    var id = currentRow.find("td span").text();
    window.location = "/images/?id=" + id;
  });
-</script>>
+</script>
