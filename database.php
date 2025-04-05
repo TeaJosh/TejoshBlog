@@ -1,31 +1,43 @@
 <?php
-require_once '../secure/config.php';
+// Define the base directory (adjust the path accordingly)
+define('BASE_DIR', realpath(dirname(__FILE__) . '/../../../..')); // Navigate up to the correct level
+
+// Require the config file using the base directory
+require_once(BASE_DIR . '/secure/config.php');
 
 class Database {
-    protected $user = "root";
-    protected $password = "";
-    protected $db = "site";
+    protected $user;
+    protected $password;
+    protected $db;
     protected $cn;
 
-    public function GetConnection() {
+    public function __construct() {
+        $this->loadConfig();
+    }
+
+    protected function loadConfig() {
         $config = new Configuration();
         
         $this->user = $config->username;
         $this->password = $config->password;
         $this->db = $config->database;
+    }
 
-        $this->cn = new mysqli("localhost", $this->user, $this->password, $this->db);
+    public function getConnection() {
+        if ($this->cn === null) {
+            $this->cn = new mysqli("localhost", $this->user, $this->password, $this->db);
         
-        if ($this->cn->connect_errno) {
-            echo "Failed to connect to MySQL: " . $this->cn->connect_error;
-            exit();
+            if ($this->cn->connect_errno) {
+                throw new Exception("Failed to connect to MySQL: " . $this->cn->connect_error);
+            }
         }
         return $this->cn;
     }
 
-    public function CloseConnection() {
+    public function closeConnection() {
         if ($this->cn) {
             $this->cn->close();
+            $this->cn = null;
         }
     }
 
@@ -43,30 +55,40 @@ class Database {
     }
 
     public function getAll($query) {
-        $cn = $this->cn;
-        if ($query == "") {
-            return "Error: Query cannot be blank";
+        if (empty($query)) {
+            throw new InvalidArgumentException("Query cannot be blank");
+        }
+
+        $result = $this->cn->query($query);
+        if (!$result) {
+            throw new Exception("Query failed: " . $this->cn->error);
         }
         
-        $result = $this->cn->query($query);
         $array = $result->fetch_all(MYSQLI_ASSOC);
         $result->free_result();
         return $array;
     }
 
     public function getArray($query) {
-        $cn = $this->cn;
-        if ($query == "") {
-            return "Error: Query cannot be blank";
+        if (empty($query)) {
+            throw new InvalidArgumentException("Query cannot be blank");
         }
 
         $result = $this->cn->query($query);
+        if (!$result) {
+            throw new Exception("Query failed: " . $this->cn->error);
+        }
+
         $array = $result->fetch_array(MYSQLI_ASSOC);
         $result->free_result();
         return $array;
     }
+
+    public function __destruct() {
+        $this->closeConnection();
+    }
 }
 
 $db = new Database();
-$cn = $db->GetConnection();
+$cn = $db->getConnection();
 ?>
