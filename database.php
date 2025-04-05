@@ -1,6 +1,6 @@
 <?php
 // Define the base directory (adjust the path accordingly)
-define('BASE_DIR', realpath(dirname(__FILE__) . '/../../../..')); // Navigate up to the correct level
+define('BASE_DIR', realpath(dirname(__FILE__) . '/../../..')); // Navigate up to the correct level
 
 // Require the config file using the base directory
 require_once(BASE_DIR . '/secure/config.php');
@@ -13,6 +13,7 @@ class Database {
 
     public function __construct() {
         $this->loadConfig();
+        $this->getConnection(); // Ensure the connection is initialized
     }
 
     protected function loadConfig() {
