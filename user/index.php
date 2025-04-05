@@ -5,11 +5,12 @@ $page = new template();
 $page->headerSubtitle = "User Profile";
 $page->title = "User Profile";
 
-$id = $_REQUEST['id'];
+// Ensure the 'id' is safely accessed
+$id = isset($_REQUEST['id']) ? $_REQUEST['id'] : null;
 
 ob_start();
 
-if (isset($id)) {
+if ($id !== null) {
   $p = new ProfileDAL($id);
   $profile = $p->profile;
   $user = $p->user;
@@ -25,7 +26,7 @@ if (isset($id)) {
         <div class="card-header">
           <div class="row">
             <div class="col">
-              <?= $profile['first_name'] ?>'s Profile
+              <?= htmlspecialchars($profile['first_name']) ?>'s Profile
             </div>
             <div class="col float-right actionitem" style="text-align: right">
               <i id="EditProfile" class="fa fa-pencil-square-o" title="Edit the profile"></i>
@@ -35,23 +36,23 @@ if (isset($id)) {
 
         <div class="card-body">
           <p>
-            <img class="mainProfile" src="images/<?= $profile['picture'] ?>" alt='Profile picture'>
+            <img class="mainProfile" src="images/<?= htmlspecialchars($profile['picture']) ?>" alt='Profile picture'>
           </p>
 
           <?php
-          echo "User Id: <label id='UserId'>". $profile['iduser'] ."</label> <br/>";
-          echo "Name: ". $profile['first_name'] ." ". $profile['middle_name'] ." ". $profile['last_name'] . "<br/>";
-          echo "Date of Birth: ". $profile['date_of_birth'] . "<br/>";
-          echo "User Name: ". $user['username'] . "<br/>";
-          echo "Active: ". $user['active'] . "<br/>";
-          echo "Last login: ". $user['last_login'] ." <br>";
+          echo "User Id: <label id='UserId'>". htmlspecialchars($profile['iduser']) ."</label> <br/>";
+          echo "Name: ". htmlspecialchars($profile['first_name']) ." ". htmlspecialchars($profile['middle_name']) ." ". htmlspecialchars($profile['last_name']) . "<br/>";
+          echo "Date of Birth: ". htmlspecialchars($profile['date_of_birth']) . "<br/>";
+          echo "User Name: ". htmlspecialchars($user['username']) . "<br/>";
+          echo "Active: ". htmlspecialchars($user['active']) . "<br/>";
+          echo "Last login: ". htmlspecialchars($user['last_login']) ." <br>";
           ?>
 
-          Color: <input type="color" id="colorpicker" class="colorbox" value="<?= $profile['color'] ?>"></input>
+          Color: <input type="color" id="colorpicker" class="colorbox" value="<?= htmlspecialchars($profile['color']) ?>"></input>
           <br><br>
 
           <?php
-          echo "About: ". nl2br($profile['about']);
+          echo "About: ". nl2br(htmlspecialchars($profile['about']));
           ?>
         </div>
       </div>
