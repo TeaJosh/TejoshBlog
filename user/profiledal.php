@@ -9,7 +9,6 @@ class ProfileDAL {
     protected $phone;
     protected $userRoles;
     protected $allRoles;
-    protected $cn;
     protected $db;
 
     public function __set($attribute, $value) {
@@ -26,28 +25,30 @@ class ProfileDAL {
     }
 
     public function LoadProfile($id) {
-        $this->cn = $this->db->NewConnection();
+        $conn = $this->db->NewConnection();
 
-        $sql = "SELECT * FROM user WHERE iduser = " . intval($id);
-        $this->user = $this->db->getArray($sql);
+        $sql = "SELECT * FROM user WHERE iduser = ?";
+        $this->user = $this->db->getArray($sql, [$id]);
 
-        $sql = "SELECT * FROM profile WHERE iduser = " . intval($id);
-        $this->profile = $this->db->getArray($sql);
+        $sql = "SELECT * FROM profile WHERE iduser = ?";
+        $this->profile = $this->db->getArray($sql, [$id]);
 
-        $sql = "SELECT * FROM address WHERE iduser = " . intval($id);
-        $this->address = $this->db->getAll($sql);
+        $sql = "SELECT * FROM address WHERE iduser = ?";
+        $this->address = $this->db->getAll($sql, [$id]);
 
-        $sql = "SELECT * FROM phone WHERE iduser = " . intval($id);
-        $this->phone = $this->db->getAll($sql);
+        $sql = "SELECT * FROM phone WHERE iduser = ?";
+        $this->phone = $this->db->getAll($sql, [$id]);
 
-        $sql = "SELECT * FROM email WHERE iduser = " . intval($id);
-        $this->email = $this->db->getAll($sql);
+        $sql = "SELECT * FROM email WHERE iduser = ?";
+        $this->email = $this->db->getAll($sql, [$id]);
 
-        $sql = "SELECT * FROM vwuser WHERE iduser = " . intval($id);
-        $this->userRoles = $this->db->getAll($sql);
+        $sql = "SELECT * FROM vwuser WHERE iduser = ?";
+        $this->userRoles = $this->db->getAll($sql, [$id]);
 
         $sql = "SELECT * FROM role";
         $this->allRoles = $this->db->getAll($sql);
+
+        $this->db->CloseConnection();
     }
 
     function SaveProfilePicture($picture) {
@@ -59,8 +60,8 @@ class ProfileDAL {
         $sql = "UPDATE profile SET picture=? WHERE idprofile=?";
         $msg = "";
 
-        $cn = $this->db->NewConnection();
-        $stmt = $cn->prepare($sql);
+        $conn = $this->db->NewConnection();
+        $stmt = $conn->prepare($sql);
 
         if (!$stmt->bind_param("si", $picture, $profileId)) {
             $msg = "Error: Parameter Binding Failed";
@@ -70,6 +71,7 @@ class ProfileDAL {
             $msg = "Success: Profile picture saved";
         }
 
+        $stmt->close();
         $this->db->CloseConnection();
         return $msg;
     }
@@ -77,12 +79,12 @@ class ProfileDAL {
     function SaveProfile($userid, $firstname, $lastname, $middlename, $dateofbirth, $color, $about, $active, $mode) {
         $msg = "";
         $isActive = $active == "on" ? 1 : 0;
-        $cn = $this->db->NewConnection();
+        $conn = $this->db->NewConnection();
 
         if ($mode == 'edit') {
             $profileid = $this->profile['idprofile'];
             $sql = "UPDATE profile SET firstname=?, lastname=?, middlename=?, date_of_birth=?, color=?, about=?, active=? WHERE idprofile=?";
-            $stmt = $cn->prepare($sql);
+            $stmt = $conn->prepare($sql);
 
             if (!$stmt->bind_param("ssssssii", $firstname, $lastname, $middlename, $dateofbirth, $color, $about, $isActive, $profileid)) {
                 return "Error: Parameter Binding Failed";
@@ -90,7 +92,7 @@ class ProfileDAL {
 
         } elseif ($mode == 'new') {
             $sql = "INSERT INTO profile (iduser, firstname, lastname, middlename, date_of_birth, color, about, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            $stmt = $cn->prepare($sql);
+            $stmt = $conn->prepare($sql);
 
             if (!$stmt->bind_param("issssssi", $userid, $firstname, $lastname, $middlename, $dateofbirth, $color, $about, $isActive)) {
                 return "Error: Parameter Binding Failed";
@@ -106,30 +108,31 @@ class ProfileDAL {
             $msg = "Success: Profile saved";
         }
 
+        $stmt->close();
         $this->db->CloseConnection();
         return $msg;
     }
 
     function RefreshProfile($id) {
-        $this->cn = $this->db->CloseConnection();
-        $sql = "SELECT * FROM profile WHERE iduser=" . intval($id);
-        $this->profile = $this->db->getArray($sql);
+        $conn = $this->db->NewConnection();
+        $sql = "SELECT * FROM profile WHERE iduser=?";
+        $this->profile = $this->db->getArray($sql, [$id]);
         $this->db->CloseConnection();
         return $this->profile;
     }
 
     function RefreshUser($id) {
-        $this->cn = $this->db->CloseConnection();
-        $sql = "SELECT * FROM user WHERE iduser=" . intval($id);
-        $this->user = $this->db->getArray($sql);
+        $conn = $this->db->NewConnection();
+        $sql = "SELECT * FROM user WHERE iduser=?";
+        $this->user = $this->db->getArray($sql, [$id]);
         $this->db->CloseConnection();
         return $this->user;
     }
 
     function RefreshEmails($id) {
-        $this->cn = $this->db->CloseConnection();
-        $sql = "SELECT * FROM email WHERE iduser=" . intval($id);
-        $this->email = $this->db->getAll($sql);
+        $conn = $this->db->NewConnection();
+        $sql = "SELECT * FROM email WHERE iduser=?";
+        $this->email = $this->db->getAll($sql, [$id]);
         $this->db->CloseConnection();
         return $this->email;
     }

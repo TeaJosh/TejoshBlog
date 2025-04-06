@@ -1,95 +1,69 @@
 <?php
-// Define the base directory (adjust the path accordingly)
-define('BASE_DIR', realpath(dirname(__FILE__) . '/../..')); // Navigate up to the correct level
-
-// Require the config file using the base directory
-require_once(BASE_DIR . '/homework/portfolio/config.php'); // Adjusted path
-
 class Database {
-    protected $user;
-    protected $password;
-    protected $db;
-    protected $cn;
+    private $host = 'your_host';
+    private $db_name = 'your_database_name';
+    private $username = 'your_username';
+    private $password = 'your_password';
+    private $conn;
 
-    public function __construct() {
-        $this->loadConfig();
-        $this->getConnection(); // Ensure the connection is initialized
+    // Method to establish a new database connection
+    public function NewConnection() {
+        $this->conn = null;
+
+        try {
+            $this->conn = new mysqli($this->host, $this->username, $this->password, $this->db_name);
+            if ($this->conn->connect_errno) {
+                throw new Exception("Failed to connect to MySQL: " . $this->conn->connect_error);
+            }
+        } catch (Exception $e) {
+            echo "Connection error: " . $e->getMessage();
+        }
+
+        return $this->conn;
     }
 
-    protected function loadConfig() {
-        $config = new Configuration();
-        
-        $this->user = $config->username;
-        $this->password = $config->password;
-        $this->db = $config->database;
+    // Method to close the database connection
+    public function CloseConnection() {
+        if ($this->conn) {
+            $this->conn->close();
+        }
     }
 
-    public function getConnection() {
-        if ($this->cn === null) {
-            $this->cn = new mysqli("localhost", $this->user, $this->password, $this->db);
-        
-            if ($this->cn->connect_errno) {
-                throw new Exception("Failed to connect to MySQL: " . $this->cn->connect_error);
+    // Method to execute a query and return a single row as an associative array
+    public function getArray($sql, $params = []) {
+        $stmt = $this->conn->prepare($sql);
+        if ($params) {
+            $stmt->bind_param(...$this->prepareParams($params));
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    // Method to execute a query and return all rows as an associative array
+    public function getAll($sql, $params = []) {
+        $stmt = $this->conn->prepare($sql);
+        if ($params) {
+            $stmt->bind_param(...$this->prepareParams($params));
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // Helper method to prepare parameters for binding
+    private function prepareParams($params) {
+        $types = '';
+        foreach ($params as $param) {
+            if (is_int($param)) {
+                $types .= 'i';
+            } elseif (is_double($param)) {
+                $types .= 'd';
+            } else {
+                $types .= 's';
             }
         }
-        return $this->cn;
-    }
-
-    public function closeConnection() {
-        if ($this->cn) {
-            $this->cn->close();
-            $this->cn = null;
-        }
-    }
-
-    public function __set($name, $value) {
-        if (property_exists($this, $name)) {
-            $this->$name = $value;
-        }
-    }
-
-    public function __get($name) {
-        if (property_exists($this, $name)) {
-            return $this->$name;
-        }
-        return null;
-    }
-
-    public function getAll($query) {
-        if (empty($query)) {
-            throw new InvalidArgumentException("Query cannot be blank");
-        }
-
-        $result = $this->cn->query($query);
-        if (!$result) {
-            throw new Exception("Query failed: " . $this->cn->error);
-        }
-        
-        $array = $result->fetch_all(MYSQLI_ASSOC);
-        $result->free_result();
-        return $array;
-    }
-
-    public function getArray($query) {
-        if (empty($query)) {
-            throw new InvalidArgumentException("Query cannot be blank");
-        }
-
-        $result = $this->cn->query($query);
-        if (!$result) {
-            throw new Exception("Query failed: " . $this->cn->error);
-        }
-
-        $array = $result->fetch_array(MYSQLI_ASSOC);
-        $result->free_result();
-        return $array;
-    }
-
-    public function __destruct() {
-        $this->closeConnection();
+        return array_merge([$types], $params);
     }
 }
-
-$db = new Database();
-$cn = $db->getConnection();
 ?>
