@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `site`.`address` (
   `City` VARCHAR(45) NULL DEFAULT NULL,
   `State` VARCHAR(45) NULL DEFAULT NULL,
   `Zip` VARCHAR(10) NULL DEFAULT NULL,
+<<<<<<< HEAD
   `is_primary` BIT(1) NULL DEFAULT NULL,
   PRIMARY KEY (`idaddress`),
   INDEX `user_address_idx` (`iduser`),
@@ -54,6 +55,20 @@ CREATE TABLE IF NOT EXISTS `site`.`address` (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
+=======
+  `is_primary` BIT(1) NULL DEFAULT NULL, -- Renamed `primary` to `is_primary`
+  PRIMARY KEY (`idaddress`),
+  INDEX `user_address_idx` (`iduser` ASC),
+  CONSTRAINT `user_address`
+    FOREIGN KEY (`iduser`)
+    REFERENCES `user` (`iduser`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB
+AUTO_INCREMENT = 6
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+>>>>>>> f60afa493eef1e5d74a7114a7891d2a3e8198a5e
 
 -- ----------------------------------------------------------------------------
 -- Table site.email
@@ -166,6 +181,7 @@ VALUES
   (2, 7, 'Bruce', 'Wayne', NULL, '1990-12-25', 'bruce.jpg', '#0000ff', 'Batman is the superhero protector of Gotham City, a man dressed like a bat who fights against evil and strikes terror into the hearts of criminals everywhere. In his secret identity he is Bruce Wayne, billionaire industrialist and notorious playboy. Although he has no superhuman powers, he is one of the world\'s smartest men and greatest fighters. His physical prowess and technical ingenuity make him an incredibly dangerous opponent. He is also a founding member of the Justice League.'),
   (3, 8, 'Joe', 'Joestar', NULL, '1980-05-03', 'joe.png', '#00ff00', 'Joseph is a natural-born Ripple user and eventual Stand user, wielding the psychic photographic Stand, Hermit Purple. Joseph meets the fantastic threats approaching him throughout his life with initiative and impressive ingenuity, battling Vampires, the Pillar Men, and malevolent Stand users.');
  
+<<<<<<< HEAD
 INSERT INTO `site`.`user_role` (`iduser_role`, `iduser`, `idrole`) 
 VALUES 
   (1, 1, 1),
@@ -174,3 +190,6 @@ VALUES
   (4, 1, 2);
 
 SET FOREIGN_KEY_CHECKS = 1;
+=======
+INSERT INTO `user_role` (`iduser_role`, `iduser`, `idrole`) VALUES (1,1,1),(2,7,2),(3,8,2),(4,1,2);
+>>>>>>> f60afa493eef1e5d74a7114a7891d2a3e8198a5e
