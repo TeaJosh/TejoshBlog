@@ -1,9 +1,9 @@
 <?php
 // Define the base directory (adjust the path accordingly)
-define('BASE_DIR', realpath(dirname(__FILE__) . '/../../..')); // Navigate up to the correct level
+define('BASE_DIR', realpath(dirname(__FILE__) . '/../..')); // Navigate up to the correct level
 
 // Require the config file using the base directory
-require_once(BASE_DIR . '/ICS325/config.php'); // Adjusted path
+require_once(BASE_DIR . '/homework/portfolio/config.php'); // Adjusted path
 
 class Database {
     protected $user;
