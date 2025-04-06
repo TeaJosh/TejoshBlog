@@ -1,6 +1,6 @@
 <?php
 require_once('../template.php');
-require_once('../profiledal.php');
+require_once('profiledal.php');
 
 $page = new template();
 $page->headerSubtitle = "Edit User Profile";
