@@ -25,13 +25,15 @@ CREATE TABLE IF NOT EXISTS `site`.`address` (
   `City` VARCHAR(45) NULL DEFAULT NULL,
   `State` VARCHAR(45) NULL DEFAULT NULL,
   `Zip` VARCHAR(10) NULL DEFAULT NULL,
-  `primary` BIT(1) NULL DEFAULT NULL,
+  `is_primary` BIT(1) NULL DEFAULT NULL, -- Renamed `primary` to `is_primary`
   PRIMARY KEY (`idaddress`),
-  INDEX `user_address_idx` (`iduser` ASC) VISIBLE,
+  INDEX `user_address_idx` (`iduser` ASC),
   CONSTRAINT `user_address`
     FOREIGN KEY (`iduser`)
-    REFERENCES `site`.`user` (`iduser`))
-ENGINE = InnoDB
+    REFERENCES `user` (`iduser`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB
 AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
