@@ -144,10 +144,10 @@ $email = $p->RefreshEmails($id);
 </div>
 </div>
 <div class="modal-footer">
-  <input id="SaveEmail" name="SaveEmail" type="submit" class="btn btn-primary" value="Save">
-  <input id="SaveNewEmail" name="SaveNewEmail" type="submit" class="btn btn-success" value="Save New">
-  <input id="Delete" name="DeleteEmail" type="submit" class="btn btn-danger" value="Delete">
-  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+   <input id="SaveEmail" name="SaveEmail" type="submit" class="btn btn-primary" value="Save">
+   <input id="SaveNewEmail" name="SaveNewEmail" type="submit" class="btn btn-success" value="Save New">
+   <input id="Delete" name="DeleteEmail" type="submit" class="btn btn-danger" value="Delete">
+   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 </div>
 </div>
 <input type="hidden" id="userId" name="UserId" value="<?= htmlspecialchars($profile['iduser']) ?>">

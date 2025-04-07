@@ -6,7 +6,6 @@ $page = new template();
 $page->headerSubtitle = "User Profile";
 $page->title = "User Profile";
 
-// Ensure the 'id' is safely accessed
 $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : null;
 
 ob_start();
@@ -14,7 +13,6 @@ ob_start();
 if ($id !== null) {
   $p = new ProfileDAL($id);
 
-    // Check if profile data is retrieved
   if (!empty($p->profile)) {
     $profile = $p->profile;
     $user = $p->user;
@@ -122,5 +120,5 @@ if ($id !== null) {
 
 $result = ob_get_clean();
 $page->content = $result;
-$page->display();
+$page->render();
 ?>

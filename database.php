@@ -1,9 +1,9 @@
 <?php
 class Database {
-    private $host = 'your_host';
-    private $db_name = 'your_database_name';
-    private $username = 'your_username';
-    private $password = 'your_password';
+    private $host = 'localhost';
+    private $db_name = 'site';
+    private $username = 'tejoshrana';
+    private $password = '40j@jtra';
     private $conn;
 
     // Method to establish a new database connection
@@ -31,7 +31,12 @@ class Database {
 
     // Method to execute a query and return a single row as an associative array
     public function getArray($sql, $params = []) {
-        $stmt = $this->conn->prepare($sql);
+        $conn = $this->NewConnection();
+        if (!$conn) {
+            throw new Exception("Failed to establish a database connection.");
+        }
+
+        $stmt = $conn->prepare($sql);
         if ($params) {
             $stmt->bind_param(...$this->prepareParams($params));
         }
@@ -42,7 +47,12 @@ class Database {
 
     // Method to execute a query and return all rows as an associative array
     public function getAll($sql, $params = []) {
-        $stmt = $this->conn->prepare($sql);
+        $conn = $this->NewConnection();
+        if (!$conn) {
+            throw new Exception("Failed to establish a database connection.");
+        }
+
+        $stmt = $conn->prepare($sql);
         if ($params) {
             $stmt->bind_param(...$this->prepareParams($params));
         }
