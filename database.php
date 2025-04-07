@@ -3,7 +3,7 @@ class Database {
     private $host = 'localhost';
     private $db_name = 'site';
     private $username = 'tejoshrana';
-    private $password = '40j@jtra';
+    private $password = '';
     private $conn;
 
     // Method to establish a new database connection
