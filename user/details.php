@@ -51,6 +51,51 @@ ob_start();
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Addresses
+                    <a href="editaddress.php?id=<?= $profile['iduser'] ?>" class="btn btn-sm btn-warning float-right">Edit</a>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <?php foreach ($addresses as $address): ?>
+                        <li><?= htmlspecialchars($address['address']) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Phone Numbers
+                    <a href="editphone.php?id=<?= $profile['iduser'] ?>" class="btn btn-sm btn-warning float-right">Edit</a>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <?php foreach ($phone as $ph): ?>
+                        <li><?= htmlspecialchars($ph['phone_number']) ?> (<?= htmlspecialchars($ph['phone_type']) ?>)</li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Roles
+                    <a href="editrole.php?id=<?= $profile['iduser'] ?>" class="btn btn-sm btn-warning float-right">Edit</a>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <?php foreach ($roles as $role): ?>
+                        <li><?= htmlspecialchars($role['role_name']) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

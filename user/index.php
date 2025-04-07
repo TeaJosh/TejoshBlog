@@ -47,7 +47,7 @@ if ($id !== null) {
             echo "Date of Birth: ". htmlspecialchars($profile['date_of_birth']) . "<br/>";
             echo "User Name: ". htmlspecialchars($user['username']) . "<br/>";
             echo "Active: ". htmlspecialchars($user['active']) . "<br/>";
-            echo "Last login: ". htmlspecialchars($user['last_login']) ." <br>";
+            echo "Last login: ". htmlspecialchars($user['last_login']) ."<br>";
             ?>
 
             Color: <input type="color" id="colorpicker" class="colorbox" value="<?= htmlspecialchars($profile['color']) ?>"></input>
