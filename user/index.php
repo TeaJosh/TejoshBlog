@@ -18,7 +18,7 @@ if ($id !== null) {
   if (!empty($p->profile)) {
     $profile = $p->profile;
     $user = $p->user;
-    $roles = $p->userRole;
+    $roles = $p->userRoles;
     $emails = $p->email;
     $addresses = $p->address;
     $phone = $p->phone;

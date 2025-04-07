@@ -2,13 +2,13 @@
 require_once('../database.php');
 
 class ProfileDAL {
-    protected $profile;
-    protected $user;
-    protected $email;
-    protected $address;
-    protected $phone;
-    protected $userRoles;
-    protected $allRoles;
+    public $profile;
+    public $user;
+    public $email;
+    public $address;
+    public $phone;
+    public $userRoles;
+    public $allRoles;
     protected $db;
 
     public function __set($attribute, $value) {
