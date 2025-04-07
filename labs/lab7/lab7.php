@@ -8,7 +8,13 @@ $page->title = "Lab 7";
 
 $db = new Database();
 $sql = "SELECT * FROM vwuser";
-$results = $db->getAll($sql);
+$results = [];
+
+try {
+  $results = $db->getAll($sql);
+} catch (Exception $e) {
+  echo "Error: " . $e->getMessage();
+}
 
 ob_start();
 ?>
