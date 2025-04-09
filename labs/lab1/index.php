@@ -1,3 +1,8 @@
+<?php
+  include("../../includes/header.php");
+  include("../../includes/menu.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,3 +14,9 @@
 	<h1>Hello, My Name is Tejosh Rana!</h1>
 </body>
 </html>
+
+<?php 
+  include("../../includes/footer.php"); 
+?>
+
+<script src="../../js/js.js"></script>

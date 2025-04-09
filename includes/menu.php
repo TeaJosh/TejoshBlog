@@ -11,8 +11,12 @@
 
           <button class="w3-button w3-block w3-left-align" onclick="myAccFunc()">Labs</button>
           <div id="demoAcc" class="w3-bar-block w3-hide w3-card-4">
+            <a href="/ICS325/homework/portfolio/labs/lab1/index.php" class="w3-bar-item w3-button">Lab 1</a>
             <a href="/ICS325/homework/portfolio/labs/lab3/index.php" class="w3-bar-item w3-button">Lab 3</a>
             <a href="/ICS325/homework/portfolio/labs/lab4/index.php" class="w3-bar-item w3-button">Lab 4</a>
+            <a href="/ICS325/homework/portfolio/labs/lab5/index.php" class="w3-bar-item w3-button">Lab 5</a>
+            <a href="/ICS325/homework/portfolio/labs/lab6/index.php" class="w3-bar-item w3-button">Lab 6</a>
+            <a href="/ICS325/homework/portfolio/labs/lab7/index.php" class="w3-bar-item w3-button">Lab 7</a>
           </div>
           
           <button class="w3-button w3-block w3-left-align" onclick="assignment()">Assignments</button>

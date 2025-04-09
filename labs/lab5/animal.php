@@ -1,5 +1,9 @@
 <?php
+  include("../../includes/header.php");
+  include("../../includes/menu.php");
+?>
 
+<?php
 class Animal {
     protected $name;
     protected $legs;
@@ -119,3 +123,9 @@ class Lion extends Animal {
     }
 }
 ?>
+
+<?php 
+  include("../../includes/footer.php"); 
+?>
+
+<script src="../../js/js.js"></script>

@@ -1,4 +1,6 @@
 <?php
+include("../../includes/header.php");
+include("../../includes/menu.php");
 require_once 'animal.php';
 
 // Create a Cat instance
@@ -23,3 +25,9 @@ $lion->create();
 $lion->move();
 $lion->sing("Roarrr!");
 ?>
+
+<?php 
+  include("../../includes/footer.php"); 
+?>
+
+<script src="../../js/js.js"></script>

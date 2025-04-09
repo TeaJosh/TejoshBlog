@@ -76,7 +76,7 @@ ob_start();
     $("#users tr").on('click', function() {
       var currentRow = $(this).closest("tr");
       var id = currentRow.find("td span").text();
-      window.location = "/user/index.php?id=" + id;
+      window.location = "/images/?id=" + id;
     });
   </script>
 </body>
