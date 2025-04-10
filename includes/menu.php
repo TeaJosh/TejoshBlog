@@ -7,7 +7,6 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="w3-sidebar w3-card" style="width: 200px">
-          <a href="/ICS325/homework/portfolio/public/index.php" class="w3-bar-item w3-button">Home</a>
 
           <button class="w3-button w3-block w3-left-align" onclick="myAccFunc()">Labs</button>
           <div id="demoAcc" class="w3-bar-block w3-hide w3-card-4">

@@ -1,6 +1,10 @@
 <?php
-  include("../../includes/header.php");
-  include("../../includes/menu.php");
+  $header = $path . "/header.php";
+  $menu = $path . "/menu.php";
+  $footer = $path . "/footer.php";
+
+  include($header);
+  include($menu);
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +20,7 @@
 </html>
 
 <?php 
-  include("../../includes/footer.php"); 
+  include("/includes/footer.php"); 
 ?>
 
 <script src="../../js/js.js"></script>
