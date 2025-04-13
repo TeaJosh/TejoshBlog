@@ -1,6 +1,27 @@
 <?php
-  include("../../includes/header.php");
+  // Define the base path for the includes folder (going up two directory levels)
+  $path = dirname(__DIR__, 2) . "/includes";
+  
+  // Construct paths for header, menu, and footer
+  $header = $path . "/header.php";
+  $menu = $path . "/menu.php";
+  $footer = $path . "/footer.php";
+  
+  // Include header and menu if they exist
+  if (file_exists($header)) {
+      include($header);
+  } else {
+      echo "<p>Header file not found at: $header</p>";
+  }
+  
+  if (file_exists($menu)) {
+      include($menu);
+  } else {
+      echo "<p>Menu file not found at: $menu</p>";
+  }
 ?>
+
+<link rel="stylesheet" href="../../css/styles.css">
 
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -47,10 +68,6 @@
             }
         }
     }
-?>
-
-<?php 
-  include("../../includes/footer.php"); 
 ?>
 
 <script src="../../js/js.js"></script>
