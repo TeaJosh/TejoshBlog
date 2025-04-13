@@ -39,7 +39,7 @@ function myAccFunc() {
   } else { 
     x.className = x.className.replace(" w3-show", "");
     x.previousElementSibling.className = 
-    x.previousElementSibling.className.replace(" w3-green", "");
+    x.previousElementSibling.className.replace(" w3-blue", "");
   }
 }
 

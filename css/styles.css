@@ -1,38 +1,41 @@
 /* Bootstrap overrides or custom styles if any */
-
 /* Sidebar styles */
 .sidebar {
-    height: 100%;
-    width: 250px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #111;
-    padding-top: 20px;
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  padding-top: 20px;
 }
+
 .sidebar a {
-    padding: 10px 15px;
-    text-decoration: none;
-    font-size: 18px;
-    color: white;
-    display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  font-size: 18px;
+  color: FFFFFF;
+  display: block;
 }
+
 .sidebar a:hover {
-    background-color: #575757;
+  background-color: #575757;
 }
+
 .main-content {
-    margin-left: 260px; /* Same as the width of the sidebar */
-    padding: 20px;
+  margin-left: 260px; /* Same as the width of the sidebar */
+  padding: 20px;
 }
 
 /* Additional custom styles if any */
 .ProfileImage {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
+
 .table-hover tbody tr:hover {
-    background-color: #f5f5f5;
+  background-color: #f5f5f5;
 }
 
 /* Existing styles from the file */
@@ -57,11 +60,13 @@ body {
 #header {
   display: flex;
   align-items: center;
+  border-bottom: none;
+  width: 100%;
 }
 
 .title {
   height: 80px;
-  width: 800px;
+  width: 720px;
   text-align: left;
   border: double #000;
   display: flex;
@@ -87,7 +92,7 @@ body {
 
 .logopicture {
   height: 80px;
-  width: 160px;
+  width: 240px;
   border: double #000;
   display: flex;
   align-items: center;
@@ -133,10 +138,16 @@ body {
 }
 
 #menu {
-  width: 400px;
+  width: 200px;
   padding: 10px;
   flex-shrink: 0;
   border: double #000;
+  position: absolute;
+  left: 0;
+  top: 80px; /* Height of your header */
+  bottom: 40px; /* Height of your footer */
+  z-index: 100;
+  background-color: #FFFFFF;
 }
 
 #menu ul {
@@ -151,8 +162,8 @@ body {
 
 #content {
   flex: 1;
-  border: double #000;
   padding: 20px;
+  margin-left: 200px; /* Match the width of the menu */
 }
 
 .card-container {
@@ -181,6 +192,35 @@ body {
   flex-shrink: 0;
   margin-top: auto;
   justify-content: space-between;
+  position: relative; /* Ensures the footer stays on top of absolutely positioned elements */
+  z-index: 101; /* Higher than the menu */
+}
+
+/* Fix for the double border line issue */
+body > div:not(#header):not(#footer):not(.main-container) {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+/* Remove borders from containers that might be causing duplication */
+.container, .container-fluid, .row {
+  border: none !important;
+}
+
+/* W3-sidebar modifications */
+.w3-sidebar {
+  position: absolute !important;
+  left: 0 !important;
+  top: 80px !important; /* Adjust based on header height */
+  bottom: 40px !important; /* Adjust based on footer height */
+  height: auto !important;
+  background-color: #FFFFFF !important;
+  z-index: 100 !important;
+}
+
+/* Ensure content doesn't overlap with sidebar */
+.w3-container {
+  margin-left: 0 !important; /* Reset any Bootstrap or W3.CSS margins */
 }
 
 table {
@@ -198,7 +238,7 @@ table {
 
 .jsonTable th {
   background-color: #1C6EA4;
-  color: white;
+  color: #000000;
   padding: 10px;
   text-align: left;
 }
