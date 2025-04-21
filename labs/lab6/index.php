@@ -32,7 +32,7 @@ include($menu);
 </head>
 <body>
     <div class="content">
-        <h1>Hello, My Name is Tejosh Rana!</h1>
+        <p>Files "queries.sql" and "site.sql" are in this folder.</p>
     </div>
 </body>
 </html>

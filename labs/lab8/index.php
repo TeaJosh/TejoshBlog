@@ -32,7 +32,7 @@ include($menu);
 </head>
 <body>
     <div class="content">
-        <h1>Hello, My Name is Tejosh Rana!</h1>
+        <p>My portfolio has been deployed on kmvsolutions.net</p>
     </div>
 </body>
 </html>
