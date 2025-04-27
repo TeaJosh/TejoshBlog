@@ -25,7 +25,14 @@ if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) {
         &copy; Copyright 2025 Metropolitan State University
       </div>
       <div class="col text-end">
-        Accessed by: Tejosh Rana
+        Accessed by:
+        <?php
+        if (isset($_SESSION['valid_user'])) {
+          echo htmlspecialchars($_SESSION['valid_user']);
+        } else {
+          echo "Tejosh Rana";
+        }
+        ?>
       </div>
     </div>
   </div>

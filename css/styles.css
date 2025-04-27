@@ -1,24 +1,36 @@
-/* Terminal-Inspired Styles */
+/* Terminal-Inspired Styles - Limited to specific areas */
+/* Base reset styles that apply to all elements */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Courier New', monospace;
-  color: #00FF00;
 }
 
 html, body {
   height: 100%;
-  background-color: #000000;
 }
 
 body {
   display: flex;
   flex-direction: column;
   margin: 0;
+  font-family: sans-serif; /* Default non-terminal font */
+  background-color: #ffffff; /* Default white background */
+  color: #333333; /* Default text color */
 }
 
-/* Sidebar styles */
+/* Terminal style applied only to header, sidebar, and footer */
+#header, 
+.sidebar, 
+#menu, 
+#footer, 
+.w3-sidebar {
+  font-family: 'Courier New', monospace;
+  color: #00FF00;
+  background-color: #000000;
+}
+
+/* Sidebar styles - ensure terminal styling */
 .sidebar {
   height: 100%;
   width: 250px;
@@ -36,9 +48,55 @@ body {
   font-size: 18px;
   color: #00FF00;
   display: block;
+  background-color: #000000; /* Ensure black background */
 }
 
+/* Selected/active link in sidebar */
+.sidebar a.active,
+.sidebar a:focus,
+.sidebar .active {
+  background-color: #009900;
+  color: #FFFFFF;
+}
+
+/* Hover effect for sidebar links */
 .sidebar a:hover {
+  background-color: #003300;
+  color: #33FF33;
+}
+
+/* Navigation menu styling */
+nav, nav ul, nav li, nav a {
+  font-family: 'Courier New', monospace;
+  color: #00FF00;
+  background-color: #000000;
+}
+
+/* Lab links and section headers in nav */
+nav a, nav .section-header {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #00FF00;
+  background-color: #000000;
+}
+
+/* Section headers like "Labs" and "Assignments" */
+nav .section-header {
+  background-color: #009900;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+/* Lab links in navigation */
+nav .lab-link {
+  padding-left: 25px; /* Indent for hierarchy */
+  background-color: #000000;
+  color: #00FF00;
+}
+
+/* Selected/active lab link */
+nav .lab-link.active {
   background-color: #003300;
   color: #33FF33;
 }
@@ -48,15 +106,39 @@ body {
   padding: 20px;
 }
 
-/* Additional custom styles if any */
-.ProfileImage {
+/* Terminal-styled Profile Image */
+#header .ProfileImage,
+#menu .ProfileImage,
+.sidebar .ProfileImage,
+#footer .ProfileImage {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   border: 2px solid #00FF00;
 }
 
-.table-hover tbody tr:hover {
+/* Terminal-styled tables in terminal areas */
+#header table,
+#menu table,
+.sidebar table,
+#footer table {
+  border: 1px solid #00FF00;
+  background-color: #000000;
+}
+
+#header tr, #header th, #header td,
+#menu tr, #menu th, #menu td,
+.sidebar tr, .sidebar th, .sidebar td,
+#footer tr, #footer th, #footer td {
+  border: 1px solid #00FF00;
+  color: #00FF00;
+}
+
+/* Terminal table hover in terminal sections */
+#header .table-hover tbody tr:hover,
+#menu .table-hover tbody tr:hover,
+.sidebar .table-hover tbody tr:hover,
+#footer .table-hover tbody tr:hover {
   background-color: #003300;
 }
 
@@ -68,26 +150,30 @@ body {
   background-color: #000000;
 }
 
-.title {
+/* Terminal styling for header components */
+#header .title,
+#header .image-carousel,
+#header .logopicture,
+#header .pfp,
+#header .blank-space,
+#header #userDropdown {
   height: 80px;
-  width: 720px;
-  text-align: left;
   border: double #00FF00;
   display: flex;
   align-items: center;
   overflow: hidden;
   background-color: #000000;
+  color: #00FF00;
+}
+
+.title {
+  width: 720px;
+  text-align: left;
 }
 
 .image-carousel {
-  height: 80px;
   width: 400px;
-  border: double #00FF00;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  overflow: hidden;
-  background-color: #000000;
 }
 
 .image-carousel img {
@@ -96,48 +182,136 @@ body {
   object-fit: cover;
 }
 
-.logopicture {
-  height: 80px;
-  width: 240px;
-  border: double #00FF00;
+/* Add blank space that will fill the gap */
+.blank-space {
+  flex-grow: 1; /* Changed from 25 to 1 */
+  background-color: #000000;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  padding-right: 20px;
+  font-size: 14px;
+  color: #00FF00;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
   overflow: hidden;
-  background-color: #000000;
+}
+
+.blank-space::before {
+  content: "> System status: online";
+  animation: typing 3s steps(25, end), blink-caret 0.75s step-end infinite;
+  border-right: 2px solid #00FF00;
+  white-space: nowrap;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #00FF00 }
+}
+
+.logopicture {
+  width: 120px;
 }
 
 .logopicture img {
   height: 100%;
   width: 100%;
   object-fit: cover;
+  float: right;
 }
 
-.pfp {
-  height: 80px;
-  width: 160px;
-  border: double #00FF00;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
+/* Style for login button - terminal style */
+#header .user a.btn {
+  font-family: 'Courier New', monospace;
+  background-color: #000000;
+  color: #00FF00;
+  border: 1px solid #00FF00;
+  border-radius: 0;
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+  transition: all 0.3s ease;
+  text-transform: none;
+  font-weight: normal;
+  padding: 8px 12px;
+}
+
+#header .user a.btn:hover {
+  background-color: #003300;
+  color: #33FF33;
+  box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+}
+
+/* Override Bootstrap's default btn-primary styles */
+#header .user a.btn-primary {
+  background-color: #000000 !important;
+  border-color: #00FF00 !important;
+}
+
+#header .user a.btn-primary:hover {
+  background-color: #003300 !important;
+}
+
+/* Ensure all elements in the user section have terminal styling */
+#header .user * {
+  font-family: 'Courier New', monospace;
+  color: #00FF00;
   background-color: #000000;
 }
 
-.pfp img {
+#userDropdown {
+  width: 120px;
   height: 100%;
   width: 100%;
   object-fit: cover;
+  float: right;
 }
 
-.blank-space {
-  height: 80px;
+/* Fix dropdown alignment in header */
+.user {
   width: 160px;
-  border: double #00FF00;
+  position: relative;
   display: flex;
-  align-items: center;
   justify-content: center;
-  overflow: hidden;
-  flex-grow: 1;
+  align-items: center;
+}
+
+.user .dropdown {
+  width: 100%;
+  text-align: center;
+}
+
+.user .dropdown-toggle {
+  background-color: transparent;
+  color: #00FF00;
+  border: none;
+  display: inline-block;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+}
+
+.user .dropdown-menu {
+  right: 0;
+  left: auto;
   background-color: #000000;
+  border: 1px solid #00FF00;
+  min-width: 160px;
+  margin-top: 2px;
+}
+
+.user .dropdown-item {
+  color: #00FF00;
+  background-color: #000000;
+  padding: 8px 12px;
+  font-family: 'Courier New', monospace;
+}
+
+.user .dropdown-item:hover {
+  background-color: #003300;
+  color: #33FF33;
 }
 
 .main-container {
@@ -162,6 +336,22 @@ body {
 #menu ul {
   list-style: none;
   padding-left: 0;
+  color: #00FF00;
+}
+
+#menu li, #menu a {
+  color: #00FF00;
+  background-color: #000000;
+}
+
+#menu a:hover {
+  background-color: #003300;
+  color: #33FF33;
+}
+
+#menu a.active {
+  background-color: #009900;
+  color: #FFFFFF;
 }
 
 .content {
@@ -175,6 +365,7 @@ body {
   margin-left: 200px; /* Match the width of the menu */
 }
 
+/* Card container styles - NOT in terminal style */
 .card-container {
   display: flex;
   flex-wrap: wrap;
@@ -182,27 +373,28 @@ body {
   gap: 25px;
 }
 
+/* Cards - NOT in terminal style */
 .card {
   width: 500px;
-  background-color: #111111;
-  border: 1px solid #00FF00;
-  color: #00FF00;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  color: #333333;
   text-align: center;
   overflow: hidden;
-  box-shadow: 0 0 15px #00FF00;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .card h3 {
-  background-color: #003300;
+  background-color: #f8f8f8;
   padding: 10px;
-  color: #33FF33;
+  color: #333333;
 }
 
 .card-img {
   width: 100%;
   height: 100px;
   object-fit: cover;
-  border-top: 1px solid #00FF00;
+  border-top: 1px solid #dddddd;
 }
 
 #footer {
@@ -214,12 +406,16 @@ body {
   flex-shrink: 0;
   margin-top: auto;
   justify-content: space-between;
-  position: relative; /* Ensures the footer stays on top of absolutely positioned elements */
-  z-index: 101; /* Higher than the menu */
+  position: relative;
+  z-index: 101;
   display: flex;
   align-items: center;
   padding: 0 10px;
   font-size: 0.8em;
+}
+
+#footer * {
+  color: #33FF33;
 }
 
 /* Fix for the double border line issue */
@@ -242,6 +438,27 @@ body > div:not(#header):not(#footer):not(.main-container) {
   height: auto !important;
   background-color: #000000 !important;
   z-index: 100 !important;
+  color: #00FF00 !important;
+}
+
+.w3-sidebar * {
+  color: #00FF00 !important;
+  background-color: #000000;
+}
+
+.w3-sidebar a {
+  color: #00FF00 !important;
+  background-color: #000000;
+}
+
+.w3-sidebar a:hover {
+  background-color: #003300 !important;
+  color: #33FF33 !important;
+}
+
+.w3-sidebar a.active {
+  background-color: #009900 !important;
+  color: #FFFFFF !important;
 }
 
 /* Ensure content doesn't overlap with sidebar */
@@ -249,83 +466,64 @@ body > div:not(#header):not(#footer):not(.main-container) {
   margin-left: 0 !important; /* Reset any Bootstrap or W3.CSS margins */
 }
 
-/* W3-card overrides for terminal style */
+/* W3-card overrides for non-terminal style */
 .w3-card-4 {
-  background-color: #111111 !important;
-  border: 1px solid #00FF00 !important;
-  box-shadow: 0 0 15px #00FF00 !important;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+/* Table styling - NOT in terminal style by default */
 table {
-  border: 2px double #00FF00;
-  border-collapse: collapse; /* Ensures no double borders */
+  border: 1px solid #dddddd;
+  border-collapse: collapse;
   width: 100%;
-  background-color: #000000;
-  box-shadow: 0 0 10px #00FF00;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
+tr, th, td {
+  border: 1px solid #dddddd;
+  color: #333333;
+  padding: 8px;
+}
+
+/* Special tables can keep their own styling */
 .jsonTable {
-  border: 1px solid #00FF00;
+  border: 1px solid #dddddd;
   width: 100%;
   border-collapse: collapse;
 }
 
 .jsonTable th {
-  background-color: #003300;
-  color: #00FF00;
+  background-color: #f8f8f8;
+  color: #333333;
   padding: 10px;
   text-align: left;
 }
 
 .jsonTable td {
   padding: 8px;
-  border: 1px solid #00FF00;
+  border: 1px solid #dddddd;
 }
 
 .jsonTable tr:nth-child(even) {
-  background-color: #001100; /* Alternating row colors */
+  background-color: #f9f9f9; /* Alternating row colors */
 }
 
 .jsonTable tr:hover {
-  background-color: #003300; /* Highlight row on hover */
-}
-
-tr, th, td {
-  border: 1px solid #00FF00;
-  color: #00FF00;
+  background-color: #f1f1f1; /* Highlight row on hover */
 }
 
 .key {
-  background-color: #002200;
+  background-color: #f8f8f8;
   font-weight: bold;
   padding: 8px;
 }
 
-/* Override any possible Bootstrap text colors */
-p, h1, h2, h3, h4, h5, h6, li, span, div {
-  color: #00FF00 !important;
-}
-
-/* Terminal cursor effect for headings */
-h1, h2, h3 {
-  position: relative;
-}
-
-/* Override for Bootstrap and W3.CSS lists */
-ul, ol, li {
-  color: #00FF00 !important;
-}
-
-
-
-
-
-
-
-
-
+/* Registration form styling - NOT in terminal style */
 .register {
-  margin: 25px auto; /* Moves form towards the top */
+  margin: 25px auto;
   width: 500px;
   padding: 20px;
   display: flex;
@@ -333,10 +531,12 @@ ul, ol, li {
   align-items: center;
   text-align: center;
   background-image: radial-gradient(circle farthest-corner at 22.4% 21.7%, rgba(4,189,228,1) 0%, rgba(2,83,185,1) 100.2%);
+  color: #000000;
 }
 
 .register p {
   padding: 10px;
+  color: #000000 !important;
 }
 
 form {
@@ -349,7 +549,7 @@ label {
   margin-top: 10px;
   margin-bottom: 5px;
   text-align: left;
-  color: #000000;
+  color: #000000 !important;
   font-weight: bold;
 }
 
@@ -361,6 +561,14 @@ input {
   box-sizing: border-box;
   border: 1px solid #ddd;
   border-radius: 5px;
+  color: #333333;
+  background-color: #ffffff;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
 }
 
 input[type=submit]:hover {

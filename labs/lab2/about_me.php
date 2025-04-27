@@ -1,5 +1,11 @@
 <?php
-$base_url = "/ICS325/homework/portfolio";
+// Detect whether you're on localhost or the live server
+if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) {
+    $base_url = '/ICS325/homework/portfolio';
+} else {
+    $base_url = '/ics325/students/2025/TRana';
+}
+
 $public_url = $base_url . "/public";
 $images_url = $base_url . "/images";
 $js_url = $base_url . "/js";

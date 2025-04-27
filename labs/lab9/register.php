@@ -1,4 +1,7 @@
 <?php
+// Start the session first thing
+session_start();
+
 // Detect whether you're on localhost or live server
 if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) {
     $base_url = '/ICS325/homework/portfolio';
@@ -98,25 +101,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $pdo->beginTransaction();
 
+                // Create user login
                 $hash = password_hash($password, PASSWORD_DEFAULT);
-
-                $query = $pdo->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+                $query = $pdo->prepare("INSERT INTO users (username, password, email) VALUES (:username, :password, :email)");
                 $query->execute([
                     'username' => $username,
-                    'password' => $hash
+                    'password' => $hash,
+                    'email' => $username
                 ]);
 
                 $user_id = $pdo->lastInsertId();
-                
-                $query = $pdo->prepare("INSERT INTO profile (user_id, first_name, last_name, middle_name, date_of_birth, color)
-                    VALUES (:user_id, :first_name, :last_name, :middle_name, :date_of_birth, :color)");
+
+                // Create user profile (without username)
+                $query = $pdo->prepare("INSERT INTO user_profiles (
+                    user_id, first_name, last_name, middle_name, date_of_birth, theme_color
+                    ) VALUES (
+                    :user_id, :first_name, :last_name, :middle_name, :date_of_birth, :theme_color
+                )");
                 $query->execute([
                     'user_id' => $user_id,
                     'first_name' => $fname,
                     'last_name' => $lname,
                     'middle_name' => $mname ?: null,
                     'date_of_birth' => $dob ?: null,
-                    'color' => $color
+                    'theme_color' => $color
                 ]);
 
                 $pdo->commit();
@@ -127,8 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } catch (Exception $e) {
             $pdo->rollBack();
             $message = '<div class="alert alert-danger">Registration failed. Please try again later.</div>';
-            // For debugging purposes, you might want to add:
-            // $message .= ' Debug info: ' . $e->getMessage();
+            $message .= ' Debug info: ' . $e->getMessage();
         }
     }
 }
@@ -139,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <title>Register Page</title>
     <link rel="stylesheet" href="<?php echo $base_url; ?>/css/styles.css">
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
 </head>
 <body>
     <?php include($header); ?>
@@ -151,38 +158,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h1>Register</h1>
                 <p>Already have an account? <a href="login.php">Login</a></p>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>" minlength="5" maxlength="50" required>
-                    <span class="error"><?php echo $errors['username'] ?? ''; ?></span>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" id="username" class="form-control" value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>" minlength="5" maxlength="50" required>
+                        <span class="error"><?php echo $errors['username'] ?? ''; ?></span>
+                        
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" maxlength="50" required>
+                        <span class="error"><?php echo $errors['password'] ?? ''; ?></span>
 
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" maxlength="50" required>
-                    <span class="error"><?php echo $errors['password'] ?? ''; ?></span>
+                        <label for="password2">Confirm Password</label>
+                        <input type="password" name="password2" id="password2" class="form-control" maxlength="50" required>
+                        <span class="error"><?php echo $errors['password2'] ?? ''; ?></span>
 
-                    <label for="password2">Confirm Password</label>
-                    <input type="password" name="password2" id="password2" maxlength="50" required>
-                    <span class="error"><?php echo $errors['password2'] ?? ''; ?></span>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" maxlength="50" required>
+                        <span class="error"><?php echo $errors['email'] ?? ''; ?></span>
 
-                    <label for="fname">First Name</label>
-                    <input type="text" name="fname" id="fname" value="<?php echo htmlspecialchars($_POST['fname'] ?? ''); ?>" maxlength="50" required>
-                    <span class="error"><?php echo $errors['fname'] ?? ''; ?></span>
+                        <label for="fname">First Name</label>
+                        <input type="text" name="fname" id="fname" class="form-control" value="<?php echo htmlspecialchars($_POST['fname'] ?? ''); ?>" maxlength="50" required>
+                        <span class="error"><?php echo $errors['fname'] ?? ''; ?></span>
 
-                    <label for="lname">Last Name</label>
-                    <input type="text" name="lname" id="lname" value="<?php echo htmlspecialchars($_POST['lname'] ?? ''); ?>" maxlength="50" required>
-                    <span class="error"><?php echo $errors['lname'] ?? ''; ?></span>
+                        <label for="lname">Last Name</label>
+                        <input type="text" name="lname" id="lname" class="form-control" value="<?php echo htmlspecialchars($_POST['lname'] ?? ''); ?>" maxlength="50" required>
+                        <span class="error"><?php echo $errors['lname'] ?? ''; ?></span>
 
-                    <label for="mname">Middle Name (Optional)</label>
-                    <input type="text" name="mname" id="mname" value="<?php echo htmlspecialchars($_POST['mname'] ?? ''); ?>" maxlength="50">
-                    <span class="error"><?php echo $errors['mname'] ?? ''; ?></span>
+                        <label for="mname">Middle Name (Optional)</label>
+                        <input type="text" name="mname" id="mname" class="form-control" value="<?php echo htmlspecialchars($_POST['mname'] ?? ''); ?>" maxlength="50">
+                        <span class="error"><?php echo $errors['mname'] ?? ''; ?></span>
 
-                    <label for="dob">Date of Birth (Optional)</label>
-                    <input type="date" name="dob" id="dob" value="<?php echo htmlspecialchars($_POST['dob'] ?? ''); ?>">
-                    <span class="error"><?php echo $errors['dob'] ?? ''; ?></span>
+                        <label for="dob">Date of Birth (Optional)</label>
+                        <input type="date" name="dob" id="dob" class="form-control" value="<?php echo htmlspecialchars($_POST['dob'] ?? ''); ?>">
+                        <span class="error"><?php echo $errors['dob'] ?? ''; ?></span>
 
-                    <label for="color">Favorite Color</label>
-                    <input type="color" name="color" id="color" value="<?php echo htmlspecialchars($_POST['color'] ?? '#000000'); ?>" required>
-                    <span class="error"><?php echo $errors['color'] ?? ''; ?></span>
+                        <label for="color">Favorite Color</label>
+                        <input type="color" name="color" id="color" class="form-control" value="<?php echo htmlspecialchars($_POST['color'] ?? '#000000'); ?>" required>
+                        <span class="error"><?php echo $errors['color'] ?? ''; ?></span>
+                    </div>
 
+                    <br>
                     <input type="submit" value="Register">
                 </form>
                 <?php echo $message; ?>
@@ -192,4 +206,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php include($footer); ?>
 </body>
-</html
+</html>
